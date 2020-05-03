@@ -31,6 +31,8 @@ public class ProjectTask {
     private String summary;
     private String acceptanceCriteria;
     private String status;
+
+    // 1 - High, 2- Medium, 3- Low TODO: Refactor it to enum
     private Integer priority;
     private Date dueDate;
 
