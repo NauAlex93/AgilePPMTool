@@ -74,4 +74,14 @@ public class ProjectTaskService {
 
         return projectTask;
     }
+
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask)
+    {
+        return projectTaskRepository.save(updatedTask);
+    }
+
+    public void deletePTbyProjectSequence(String backlog, String sequence)
+    {
+        projectTaskRepository.delete(findPTbyProjectSequence(backlog, sequence));
+    }
 }
