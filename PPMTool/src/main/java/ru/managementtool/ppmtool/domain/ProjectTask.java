@@ -1,6 +1,6 @@
 package ru.managementtool.ppmtool.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,45 +11,39 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Project {
+public class ProjectTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(updatable = false)
+    private String projectSequence;
+    @NotBlank(message="Please include project summary!")
+    private String summary;
+    private String acceptanceCriteria;
+    private String status;
+    private Integer priority;
+    private Date dueDate;
 
-    @NotBlank(message = "Project name required")
-    private String projectName;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
 
-    @NotBlank(message = "Project identifier required")
-    @Size(min = 4, max = 5, message = "Please use 4 to 5 characters")
-    @Column(updatable = false, unique = true)
+    @Column(updatable = false)
     private String projectIdentifier;
 
-    @NotBlank(message = "Project description is required")
-    private String description;
-
-    @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date startDate;
-    @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date endDate;
-
-    @JsonFormat(pattern = "yyyy-mm-dd")
-    @Column(updatable = false)
     private Date createdAt;
-    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
-    private Backlog backlog;
 
     @PrePersist
     protected void onCreate()
