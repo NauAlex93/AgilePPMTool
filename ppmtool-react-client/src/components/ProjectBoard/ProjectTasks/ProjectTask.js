@@ -24,9 +24,6 @@ class ProjectTask extends Component {
         priorityString = "MEDIUM";
         break;
       case 3:
-        priorityClass = "bg-info text-light";
-        priorityString = "LOW";
-        break;
       default:
         priorityClass = "bg-info text-light";
         priorityString = "LOW";
