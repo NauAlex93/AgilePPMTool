@@ -1,11 +1,11 @@
-package ru.managementtool.ppmtool.exceptions;
+package ru.managementtool.ppmtool.exceptions.invalidResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ProjectIdExceptionResponse {
+public class InvalidProjectIdResponse {
     private String projectIdentifier;
 
 }

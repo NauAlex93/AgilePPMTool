@@ -1,11 +1,10 @@
-package ru.managementtool.ppmtool.exceptions;
+package ru.managementtool.ppmtool.exceptions.invalidResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class InvalidLoginResponse {
+public class UsernameAlreadyExistsResponse {
     private String username;
-    private String password;
 }
