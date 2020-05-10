@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -48,10 +49,15 @@ public class Project {
     private Date createdAt;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
+    private String projectLeader;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     @JsonIgnore // for reducing json size
     private Backlog backlog;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
 
     @PrePersist
     protected void onCreate()

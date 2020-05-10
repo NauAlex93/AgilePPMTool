@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.managementtool.ppmtool.domain.Backlog;
 import ru.managementtool.ppmtool.domain.Project;
+import ru.managementtool.ppmtool.domain.User;
 import ru.managementtool.ppmtool.exceptions.ProjectException;
 import ru.managementtool.ppmtool.repository.BacklogRepository;
 import ru.managementtool.ppmtool.repository.ProjectRepository;
+import ru.managementtool.ppmtool.repository.UserRepository;
 
 @Service
 public class ProjectService {
@@ -16,10 +18,17 @@ public class ProjectService {
     @Autowired
     private BacklogRepository backlogRepository;
 
-    public Project saveOrUpdate(Project project)
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdate(Project project, String username)
     {
         try
         {
+            User user = userRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
+
             String projectIdentifier = project.getProjectIdentifier().toUpperCase();
             project.setProjectIdentifier(projectIdentifier);
 

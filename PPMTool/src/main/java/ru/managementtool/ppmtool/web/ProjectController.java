@@ -17,6 +17,7 @@ import ru.managementtool.ppmtool.service.ProjectService;
 import ru.managementtool.ppmtool.util.BindingResultValidator;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/project")
@@ -26,14 +27,14 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result)
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal)
     {
         ResponseEntity<?> errorMap = BindingResultValidator.validateBindingResult(result);
 
         if (errorMap != null)
             return errorMap;
 
-        project = projectService.saveOrUpdate(project);
+        project = projectService.saveOrUpdate(project, principal.getName());
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
