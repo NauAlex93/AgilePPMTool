@@ -25,21 +25,30 @@ public class ProjectService {
     {
         try
         {
-            User user = userRepository.findByUsername(username);
-            project.setUser(user);
-            project.setProjectLeader(user.getUsername());
-
             String projectIdentifier = project.getProjectIdentifier().toUpperCase();
             project.setProjectIdentifier(projectIdentifier);
 
+            // saving
             if (project.getId() == null) {
+                User user = userRepository.findByUsername(username);
+                project.setUser(user);
+                project.setProjectLeader(user.getUsername());
+
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(projectIdentifier);
             }
-            else
+            else    // updating
             {
+                Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+                if(existingProject != null && (!existingProject.getProjectLeader().equals(username))){
+                    throw new ProjectException("Project not found in your account");
+                }
+                else if(existingProject == null){
+                    throw new ProjectException("Project with ID: '" + project.getProjectIdentifier() + "' cannot be updated because it doesn't exist");
+                }
+
                 project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
             }
 
