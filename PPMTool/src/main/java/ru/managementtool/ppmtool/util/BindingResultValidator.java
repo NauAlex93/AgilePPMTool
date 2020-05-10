@@ -8,7 +8,7 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Validator {
+public final class BindingResultValidator {
 
     public static ResponseEntity<?> validateBindingResult(BindingResult result)
     {

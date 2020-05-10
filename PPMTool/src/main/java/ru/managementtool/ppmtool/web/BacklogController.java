@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.managementtool.ppmtool.domain.ProjectTask;
 import ru.managementtool.ppmtool.service.ProjectTaskService;
-import ru.managementtool.ppmtool.util.Validator;
+import ru.managementtool.ppmtool.util.BindingResultValidator;
 
 import javax.validation.Valid;
 
@@ -29,7 +29,7 @@ public class BacklogController {
     @PostMapping("/{backlog_id}")
     public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask,
                                             BindingResult result, @PathVariable String backlog_id) {
-        ResponseEntity<?> errorMap = Validator.validateBindingResult(result);
+        ResponseEntity<?> errorMap = BindingResultValidator.validateBindingResult(result);
 
         if (errorMap != null)
             return  errorMap;
@@ -56,7 +56,7 @@ public class BacklogController {
                                                 BindingResult result,
                                                 @PathVariable String backlog_id,
                                                 @PathVariable String pt_id){
-        ResponseEntity<?> errorMap = Validator.validateBindingResult(result);
+        ResponseEntity<?> errorMap = BindingResultValidator.validateBindingResult(result);
 
         if (errorMap != null)
             return  errorMap;

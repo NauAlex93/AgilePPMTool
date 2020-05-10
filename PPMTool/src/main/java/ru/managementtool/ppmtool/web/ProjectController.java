@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.managementtool.ppmtool.domain.Project;
 import ru.managementtool.ppmtool.service.ProjectService;
-import ru.managementtool.ppmtool.util.Validator;
+import ru.managementtool.ppmtool.util.BindingResultValidator;
 
 import javax.validation.Valid;
 
@@ -28,7 +28,7 @@ public class ProjectController {
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result)
     {
-        ResponseEntity<?> errorMap = Validator.validateBindingResult(result);
+        ResponseEntity<?> errorMap = BindingResultValidator.validateBindingResult(result);
 
         if (errorMap != null)
             return errorMap;
