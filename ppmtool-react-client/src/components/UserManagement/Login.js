@@ -11,7 +11,7 @@ class Login extends Component {
               <form action="dashboard.html">
                 <div className="form-group">
                   <input
-                    type="email"
+                    type="text"
                     className="form-control form-control-lg"
                     placeholder="Email Address"
                     name="email"
