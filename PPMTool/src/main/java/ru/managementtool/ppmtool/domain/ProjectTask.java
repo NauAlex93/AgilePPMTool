@@ -1,5 +1,6 @@
 package ru.managementtool.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class ProjectTask {
 
     // 1 - High, 2- Medium, 3- Low TODO: Refactor it to enum
     private Integer priority;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date dueDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -44,7 +46,9 @@ public class ProjectTask {
     @Column(updatable = false)
     private String projectIdentifier;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updatedAt;
 
     @PrePersist
