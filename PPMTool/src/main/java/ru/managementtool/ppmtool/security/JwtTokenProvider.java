@@ -7,6 +7,8 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import ru.managementtool.ppmtool.domain.User;
@@ -16,16 +18,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ru.managementtool.ppmtool.security.SecurityConstants.EXPIRATION_TIME;
 import static ru.managementtool.ppmtool.security.SecurityConstants.SECRET;
 
 @Component
 public class JwtTokenProvider {
+
+    @Autowired
+    Environment env;
+
     public String generateToken(Authentication authentication){
         User user = (User)authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
 
-        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+        Date expiryDate = new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time")));
 
         String userId = Long.toString(user.getId());
 
