@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -47,6 +49,18 @@ public class User implements UserDetails
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.createdAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate()
+    {
+        this.updatedAt = new Date();
+    }
 
 
     // UserDetails interface methods
